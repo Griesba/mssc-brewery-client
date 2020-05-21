@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.net.URI;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,5 +26,25 @@ public class BreweryClientTest {
 
         assertNotNull(dto);
 
+    }
+
+    @Test
+    public void testSaveNewBeer() {
+        BeerDto beerDto = BeerDto.builder().beerName("New Beer").build();
+
+        URI uri = client.saveNewBeer(beerDto);
+
+        assertNotNull(uri);
+
+        System.out.println(uri.toString());
+    }
+
+    @Test
+    public void testUpdate() {
+        client.updateBeer(UUID.randomUUID(), BeerDto.builder().build());
+    }
+
+    @Test void testDelete() {
+        client.deleteBeer(UUID.randomUUID());
     }
 }

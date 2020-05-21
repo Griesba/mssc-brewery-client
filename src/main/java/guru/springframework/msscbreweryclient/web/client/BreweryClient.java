@@ -6,11 +6,10 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.UUID;
 
-/**
- * Created by jt on 2019-04-23.
- */
+
 @ConfigurationProperties(prefix = "sfg.brewery", ignoreUnknownFields = false)
 @Component
 public class BreweryClient {
@@ -26,6 +25,18 @@ public class BreweryClient {
 
     public BeerDto getBeerById(UUID uuid){
         return restTemplate.getForObject(apihost + BEER_PATH_V1 + uuid.toString(), BeerDto.class);
+    }
+
+    public URI saveNewBeer(BeerDto beerDto) {
+        return restTemplate.postForLocation(apihost + BEER_PATH_V1, beerDto);
+    }
+
+    public void updateBeer(UUID id, BeerDto beerDto){
+        restTemplate.put(apihost + BEER_PATH_V1 + id.toString(), beerDto);
+    }
+
+    public void deleteBeer(UUID id){
+        restTemplate.delete(apihost + BEER_PATH_V1 + id);
     }
 
     public void setApihost(String apihost) {
