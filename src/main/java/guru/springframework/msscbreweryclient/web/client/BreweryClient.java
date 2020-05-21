@@ -1,5 +1,6 @@
 package guru.springframework.msscbreweryclient.web.client;
 
+import guru.springframework.msscbreweryclient.web.config.MsscBreweryConfig;
 import guru.springframework.msscbreweryclient.web.model.BeerDto;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -10,7 +11,7 @@ import java.net.URI;
 import java.util.UUID;
 
 
-@ConfigurationProperties(prefix = "sfg.brewery", ignoreUnknownFields = false)
+//@ConfigurationProperties(prefix = "sfg.brewery", ignoreUnknownFields = false)
 @Component
 public class BreweryClient {
 
@@ -19,8 +20,9 @@ public class BreweryClient {
 
     private final RestTemplate restTemplate;
 
-    public BreweryClient(RestTemplateBuilder restTemplateBuilder) {
+    public BreweryClient(RestTemplateBuilder restTemplateBuilder, MsscBreweryConfig msscBreweryConfig) {
         this.restTemplate = restTemplateBuilder.build();
+        apihost = msscBreweryConfig.getApihost();
     }
 
     public BeerDto getBeerById(UUID uuid){
@@ -39,7 +41,5 @@ public class BreweryClient {
         restTemplate.delete(apihost + BEER_PATH_V1 + id);
     }
 
-    public void setApihost(String apihost) {
-        this.apihost = apihost;
-    }
+
 }
